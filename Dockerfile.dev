@@ -1,0 +1,21 @@
+# Dockerfile.dev
+FROM ghcr.io/cirruslabs/flutter:3.24.5
+
+# Instala dependências do sistema necessárias
+RUN apt-get update && apt-get install -y \
+    clang cmake ninja-build pkg-config \
+    libgtk-3-dev liblzma-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Configura Android SDK (para builds Android/TV)
+ENV ANDROID_HOME=/opt/android-sdk
+ENV PATH="${PATH}:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools"
+
+# Aceita licenças do Android
+RUN yes | sdkmanager --licenses || true
+
+# Define workspace
+WORKDIR /workspace
+
+# Mantém container rodando
+CMD ["tail", "-f", "/dev/null"]
