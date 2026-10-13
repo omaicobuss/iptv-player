@@ -10,7 +10,8 @@ services:
       - gradle_cache:/root/.gradle
     environment:
       DISPLAY: ${DISPLAY:-}
-    network_mode: host
+    ports:
+      - "8081:8081"
     stdin_open: true
     tty: true
 

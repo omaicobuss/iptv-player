@@ -1,5 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../features/player/player_screen.dart';
+import '../../features/playlist/presentation/import_playlist_screen.dart';
+import '../../features/playlist/presentation/playlist_screen.dart';
 
 class AppRouter {
   const AppRouter._();
@@ -8,28 +11,20 @@ class AppRouter {
     routes: <RouteBase>[
       GoRoute(
         path: '/',
-        builder: (context, state) => const _HomeScreen(),
+        builder: (context, state) => const PlaylistScreen(),
+      ),
+      GoRoute(
+        path: '/import',
+        builder: (context, state) => const ImportPlaylistScreen(),
+      ),
+      GoRoute(
+        path: '/player',
+        builder: (context, state) {
+          final name = state.uri.queryParameters['name'] ?? 'Canal';
+          final url = state.uri.queryParameters['url'] ?? '';
+          return PlayerScreen(url: url, name: name);
+        },
       ),
     ],
   );
-}
-
-class _HomeScreen extends StatelessWidget {
-  const _HomeScreen();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Text(
-            'IPTV Player - Em desenvolvimento',
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
-        ),
-      ),
-    );
-  }
 }
